@@ -1,0 +1,12 @@
+name = "paykit"
+main = "src/index.ts"
+compatibility_date = "2024-10-22"
+
+[[kv_namespaces]]
+binding = "INTENTS_KV"
+id = "REPLACE_WITH_KV_ID"
+preview_id = "REPLACE_WITH_PREVIEW_KV_ID"
+
+[vars]
+MUSD_ADDRESS = "0x118917a40FAF1CD7a13dB0Ef56C86De7973Ac503"
+MEZO_RPC = "https://rpc.test.mezo.org"
