@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paykit Demo — MUSD Checkout</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0d0d1a; color: #eee; font-family: system-ui, sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+    .card { background: #1a1a2e; border: 1px solid #2a2a4a; border-radius: 20px; padding: 40px; max-width: 440px; width: 90%; }
+    .tag { background: #f7931a22; color: #f7931a; border-radius: 20px; padding: 4px 12px; font-size: 12px; font-weight: 600; display: inline-block; margin-bottom: 16px; }
+    h1 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+    p { color: #888; font-size: 14px; margin-bottom: 24px; line-height: 1.6; }
+    .price { font-size: 36px; font-weight: 800; color: #f7931a; margin-bottom: 24px; }
+    .price span { font-size: 16px; color: #666; font-weight: 400; }
+    .features { list-style: none; margin-bottom: 28px; }
+    .features li { color: #aaa; font-size: 13px; padding: 5px 0; }
+    .features li::before { content: "✓ "; color: #4caf50; }
+    .divider { border: none; border-top: 1px solid #2a2a4a; margin: 24px 0; }
+    #tx-log { font-size: 12px; color: #666; font-family: monospace; min-height: 20px; }
+    .badge { display: inline-block; background: #111; border: 1px solid #2a2a4a; border-radius: 6px; padding: 3px 8px; font-size: 11px; color: #666; margin-top: 16px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="tag">Paykit Demo</div>
+    <h1>Bitcoin-Backed Coffee ☕</h1>
+    <p>Pay with MUSD — Bitcoin-backed stablecoin on Mezo. No credit cards, no banks, just BTC-powered payments.</p>
+
+    <div class="price">5 MUSD <span>≈ $5.00</span></div>
+
+    <ul class="features">
+      <li>Instant settlement on Mezo testnet</li>
+      <li>No intermediary — merchant receives MUSD directly</li>
+      <li>Webhook fires on confirmation</li>
+    </ul>
+
+    <!--
+      Replace data-merchant with your Mezo testnet address.
+      Replace data-endpoint with your deployed worker URL.
+    -->
+    <script
+      src="http://localhost:8787/widget.js"
+      data-amount="5"
+      data-merchant="0x0000000000000000000000000000000000000001"
+      data-endpoint="http://localhost:8787"
+    ></script>
+
+    <hr class="divider">
+    <div id="tx-log">Waiting for payment…</div>
+    <div class="badge">Mezo Testnet (Chain 31611)</div>
+  </div>
+
+  <script>
+    window.addEventListener("paykit:success", function(e) {
+      const log = document.getElementById("tx-log")
+      log.style.color = "#4caf50"
+      log.textContent = "✓ Payment confirmed — TX: " + e.detail.tx_hash
+    })
+  </script>
+</body>
+</html>
