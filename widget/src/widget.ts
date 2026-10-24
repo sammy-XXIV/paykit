@@ -4,9 +4,10 @@
 
   const amount = script.dataset.amount || "0"
   const merchant = script.dataset.merchant || ""
+  const tokenAddress = script.dataset.token || ""
   const endpoint = (script.dataset.endpoint || "").replace(/\/$/, "")
 
-  if (!merchant || !endpoint) return
+  if (!merchant || !endpoint || !tokenAddress) return
 
   // ---- Button ----
   const btn = document.createElement("button")
@@ -101,7 +102,7 @@
         const data = "0xa9059cbb" + padded(merchant) + padded(amountWei.toString(16))
         await eth.request({
           method: "eth_sendTransaction",
-          params: [{ from, to: merchant, data, chainId: "0x7B8B" }], // 31627 testnet -- Ruling: chainId from docs
+          params: [{ from, to: tokenAddress, data, chainId: "0x7B7B" }], // MUSD contract; 0x7B7B = testnet 31611
         })
         startPolling()
       } catch (e: any) {
