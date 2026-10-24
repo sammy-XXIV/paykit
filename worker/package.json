@@ -5,13 +5,15 @@
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "test": "vitest run"
+    "test": "vitest run",
+    "build:widget": "esbuild ../widget/src/widget.ts --bundle --format=iife --platform=browser --target=es2020 --outfile=src/widget-bundle.js && node -e \"const fs=require('fs');const js=fs.readFileSync('src/widget-bundle.js','utf8');fs.writeFileSync('src/widget-inline.ts','// Auto-generated\\nexport const WIDGET_JS = '+JSON.stringify(js)+'\\n')\""
   },
   "dependencies": {
     "hono": "^4.6.3"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241022.0",
+    "esbuild": "^0.28.2",
     "typescript": "^5.6.3",
     "vitest": "^2.1.4",
     "wrangler": "^3.80.4"
