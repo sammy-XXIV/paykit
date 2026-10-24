@@ -4,8 +4,8 @@ compatibility_date = "2024-10-22"
 
 [[kv_namespaces]]
 binding = "INTENTS_KV"
-id = "REPLACE_WITH_KV_ID"
-preview_id = "REPLACE_WITH_PREVIEW_KV_ID"
+id = "54041a7a00154d009199524cc2020c59"
+preview_id = "f2fa62a1a5cc46a38de94bd8bc3802c4"
 
 [vars]
 MUSD_ADDRESS = "0x118917a40FAF1CD7a13dB0Ef56C86De7973Ac503"
