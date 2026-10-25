@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Paykit</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap">
+<style>
+/* layout: single-column centered, max 860px */
+:root {
+  --bg: #f7f7fb;
+  --surface: #ffffff;
+  --border: #e2e2ef;
+  --fg: #0d0d1a;
+  --muted: #666680;
+  --accent: #f7931a;
+  --accent-dim: #f7931a22;
+  --code-bg: #f0f0f8;
+  --radius: 14px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #08080f;
+    --surface: #111124;
+    --border: #1e1e3a;
+    --fg: #eeeef8;
+    --muted: #8888aa;
+    --accent: #f7931a;
+    --accent-dim: #f7931a1a;
+    --code-bg: #0d0d22;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #08080f;
+  --surface: #111124;
+  --border: #1e1e3a;
+  --fg: #eeeef8;
+  --muted: #8888aa;
+  --accent: #f7931a;
+  --accent-dim: #f7931a1a;
+  --code-bg: #0d0d22;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0;
+}
+
+.wrap { max-width: 860px; margin: 0 auto; }
+
+/* NAV */
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 20px;
+  border-bottom: 2px solid var(--border);
+}
+.logo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--fg);
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+.logo span { color: var(--accent); }
+nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+nav a:hover { color: var(--fg); }
+.nav-links { display: flex; gap: 24px; align-items: center; }
+.btn-ghost {
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fg);
+  text-decoration: none;
+  transition: border-color 0.15s;
+}
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+/* HERO */
+.hero {
+  padding-block: 72px 56px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+@media (max-width: 640px) {
+  .hero { grid-template-columns: 1fr; padding-block: 48px 32px; }
+}
+.hero-tag {
+  display: inline-block;
+  background: var(--accent-dim);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+.hero h1 {
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -1px;
+  text-wrap: balance;
+  margin-bottom: 16px;
+}
+.hero h1 em { color: var(--accent); font-style: normal; }
+.hero p {
+  color: var(--muted);
+  font-size: 16px;
+  margin-bottom: 28px;
+  max-width: 400px;
+}
+.hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  border: 2px solid var(--accent);
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  font-family: inherit;
+  cursor: pointer;
+}
+.btn-primary:hover { opacity: 0.9; }
+.btn-outline {
+  background: transparent;
+  color: var(--fg);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.btn-outline:hover { border-color: var(--muted); }
+
+/* demo card */
+.demo-card {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+}
+.demo-card .demo-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.demo-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+.demo-card .price { font-size: 28px; font-weight: 800; color: var(--accent); margin-bottom: 16px; }
+.demo-card .price small { font-size: 13px; font-weight: 400; color: var(--muted); }
+#demo-result { font-size: 12px; color: var(--muted); font-family: 'Space Mono', monospace; min-height: 18px; margin-top: 12px; }
+
+/* PROBLEM */
+.problem-section {
+  padding-block: 48px;
+  border-top: 2px solid var(--border);
+}
+.problem-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 24px; letter-spacing: -0.3px; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (max-width: 560px) { .two-col { grid-template-columns: 1fr; } }
+.pain-card, .solution-card {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+.solution-card { border-color: var(--accent); }
+.card-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.pain-card .card-label { color: var(--muted); }
+.solution-card .card-label { color: var(--accent); }
+.pain-card ul, .solution-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.pain-card li, .solution-card li { font-size: 14px; color: var(--muted); padding-left: 18px; position: relative; }
+.pain-card li::before { content: "✕"; position: absolute; left: 0; color: #e05555; font-size: 11px; top: 2px; }
+.solution-card li::before { content: "✓"; position: absolute; left: 0; color: #4caf50; font-size: 11px; top: 2px; }
+
+/* HOW IT WORKS */
+.steps-section {
+  padding-block: 48px;
+  border-top: 2px solid var(--border);
+}
+.steps-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 28px; letter-spacing: -0.3px; }
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media (max-width: 560px) { .steps { grid-template-columns: 1fr; } }
+.step {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+.step-num {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+}
+.step h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+.step p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+/* CODE SNIPPET */
+.code-section {
+  padding-block: 48px;
+  border-top: 2px solid var(--border);
+}
+.code-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 20px; letter-spacing: -0.3px; }
+.code-block {
+  background: var(--code-bg);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  overflow-x: auto;
+  position: relative;
+}
+.code-block pre {
+  font-family: 'Space Mono', 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--fg);
+  white-space: pre;
+  min-width: 0;
+}
+.copy-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: inherit;
+}
+.copy-btn:hover { color: var(--fg); border-color: var(--muted); }
+.kw { color: #7c9eff; }
+.str { color: #f7931a; }
+.attr { color: #9de89d; }
+.cmt { color: var(--muted); }
+
+/* FOOTER */
+footer {
+  padding-block: 32px;
+  border-top: 2px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+footer p { font-size: 13px; color: var(--muted); }
+.footer-links { display: flex; gap: 20px; }
+.footer-links a { font-size: 13px; color: var(--muted); text-decoration: none; }
+.footer-links a:hover { color: var(--fg); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="logo">pay<span>kit</span></a>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#embed">Embed</a>
+      <a href="https://github.com/sammy-XXIV/paykit" target="_blank" rel="noopener" class="btn-ghost">GitHub ↗</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div>
+      <div class="hero-tag">Mezo · Access &amp; Distribution</div>
+      <h1>Drop-in <em>MUSD</em> checkout for any website</h1>
+      <p>One script tag. Your customers pay with Bitcoin-backed stablecoin. You get a webhook when it confirms on-chain. No wallet integration. No polling loop. No infra.</p>
+      <div class="hero-cta">
+        <a href="#embed" class="btn-primary">Get the snippet</a>
+        <a href="https://github.com/sammy-XXIV/paykit" target="_blank" rel="noopener" class="btn-outline">View on GitHub</a>
+      </div>
+    </div>
+    <div class="demo-card">
+      <div class="demo-label">Live demo · Mezo Testnet</div>
+      <h3>Bitcoin-Backed Coffee ☕</h3>
+      <div class="price">5 MUSD <small>≈ $5.00</small></div>
+      <script
+        src="https://paykit.samsonsamuel531.workers.dev/widget.js"
+        data-amount="5"
+        data-merchant="0x0000000000000000000000000000000000000001"
+        data-token="0x118917a40FAF1CD7a13dB0Ef56C86De7973Ac503"
+        data-endpoint="https://paykit.samsonsamuel531.workers.dev"
+      ></script>
+      <div id="demo-result">Connect a Mezo testnet wallet to try the flow</div>
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section class="problem-section">
+    <h2>Why Paykit exists</h2>
+    <div class="two-col">
+      <div class="pain-card">
+        <div class="card-label">Without Paykit</div>
+        <ul>
+          <li>Write your own wallet integration</li>
+          <li>Build a polling loop against Mezo RPC</li>
+          <li>Handle Transfer event parsing</li>
+          <li>Deploy and maintain backend infra</li>
+          <li>Wire up webhook delivery yourself</li>
+        </ul>
+      </div>
+      <div class="solution-card">
+        <div class="card-label">With Paykit</div>
+        <ul>
+          <li>One &lt;script&gt; tag, any website</li>
+          <li>Worker polls the chain for you</li>
+          <li>Lazy eth_getLogs, no wasted queries</li>
+          <li>Cloudflare edge — zero cold starts</li>
+          <li>Webhook fires on confirmation</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="steps-section" id="how">
+    <h2>How it works</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">STEP 01</div>
+        <h3>Embed the widget</h3>
+        <p>Drop one script tag with your Mezo address and amount. The widget renders a "Pay MUSD" button instantly.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">STEP 02</div>
+        <h3>Buyer pays</h3>
+        <p>Modal opens. Buyer pays from MetaMask (wallet flow) or manually sends MUSD to your address.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">STEP 03</div>
+        <h3>Webhook fires</h3>
+        <p>Worker watches the chain with eth_getLogs. On confirmation: webhook POST, paykit:success event, tx hash.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CODE SNIPPET -->
+  <section class="code-section" id="embed">
+    <h2>Add to your site</h2>
+    <div class="code-block">
+      <button class="copy-btn" id="copy-btn">Copy</button>
+      <pre id="snippet"><span class="cmt">&lt;!-- replace data-merchant with your Mezo address --&gt;</span>
+<span class="kw">&lt;script</span>
+  <span class="attr">src</span>=<span class="str">"https://paykit.samsonsamuel531.workers.dev/widget.js"</span>
+  <span class="attr">data-amount</span>=<span class="str">"10"</span>
+  <span class="attr">data-merchant</span>=<span class="str">"YOUR_MEZO_ADDRESS"</span>
+  <span class="attr">data-token</span>=<span class="str">"0x118917a40FAF1CD7a13dB0Ef56C86De7973Ac503"</span>
+  <span class="attr">data-endpoint</span>=<span class="str">"https://paykit.samsonsamuel531.workers.dev"</span>
+<span class="kw">&gt;&lt;/script&gt;</span>
+
+<span class="cmt">// listen for payment confirmation</span>
+<span class="kw">window</span>.addEventListener(<span class="str">'paykit:success'</span>, (e) =&gt; {
+  console.log(<span class="str">'confirmed'</span>, e.detail.tx_hash)
+})</pre>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Built on <strong>Mezo</strong> · MUSD testnet</p>
+    <div class="footer-links">
+      <a href="https://github.com/sammy-XXIV/paykit" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://paykit.samsonsamuel531.workers.dev" target="_blank" rel="noopener">Worker API</a>
+      <a href="https://mezo.org/docs/developers/" target="_blank" rel="noopener">Mezo Docs</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+window.addEventListener('paykit:success', (e) => {
+  const el = document.getElementById('demo-result')
+  el.style.color = '#4caf50'
+  el.textContent = '✓ Confirmed — TX: ' + e.detail.tx_hash
+})
+
+document.getElementById('copy-btn').addEventListener('click', function() {
+  const raw = `<!-- replace data-merchant with your Mezo address -->
+<script
+  src="https://paykit.samsonsamuel531.workers.dev/widget.js"
+  data-amount="10"
+  data-merchant="YOUR_MEZO_ADDRESS"
+  data-token="0x118917a40FAF1CD7a13dB0Ef56C86De7973Ac503"
+  data-endpoint="https://paykit.samsonsamuel531.workers.dev"
+><\/script>
+
+// listen for payment confirmation
+window.addEventListener('paykit:success', (e) => {
+  console.log('confirmed', e.detail.tx_hash)
+})`
+  navigator.clipboard.writeText(raw).then(() => {
+    this.textContent = 'Copied!'
+    setTimeout(() => { this.textContent = 'Copy' }, 2000)
+  }).catch(() => {
+    this.textContent = 'Copy'
+  })
+})
+</script>
+</body>
+</html>
