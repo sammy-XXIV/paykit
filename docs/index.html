@@ -191,16 +191,6 @@ nav.top .wrap { display: flex; align-items: center; justify-content: space-betwe
 @keyframes spin { to { transform: rotate(360deg); } }
 @media (max-width: 520px) { .stamp { right: -6px; width: 76px; height: 76px; } .stamp svg { width: 76px; height: 76px; } }
 
-/* ---------- marquee ---------- */
-.marquee { background: var(--btc); color: var(--ink); border-bottom: 2px solid var(--ink); overflow: hidden; position: relative; z-index: 2; }
-.marquee .track { display: flex; width: max-content; will-change: transform; }
-.marquee span {
-  font-family: var(--f-body); font-weight: 700; font-size: clamp(22px, 3.2vw, 40px);
-  letter-spacing: -0.02em; text-transform: uppercase; padding: 14px 0; white-space: nowrap;
-  display: inline-flex; align-items: center; gap: 28px; padding-right: 28px;
-}
-.marquee span::after { content: ""; width: 16px; height: 16px; background: var(--ink); transform: rotate(45deg); }
-
 /* ---------- section scaffold ---------- */
 section.s { position: relative; z-index: 1; border-bottom: 2px solid var(--rule); }
 section.s > .wrap { padding-block: 104px; }
@@ -425,13 +415,6 @@ footer .wrap { padding-block: 64px 32px; }
     </div>
   </div>
 </header>
-
-<div class="marquee" aria-hidden="true">
-  <div class="track" id="mq">
-    <span>One script tag</span><span>Bitcoin-backed</span><span>Settles on Mezo</span><span>Webhook on confirm</span><span>No contracts</span><span>Edge-deployed</span>
-    <span>One script tag</span><span>Bitcoin-backed</span><span>Settles on Mezo</span><span>Webhook on confirm</span><span>No contracts</span><span>Edge-deployed</span>
-  </div>
-</div>
 
 <!-- THE TAX -->
 <section class="s gutter" id="why">
@@ -738,13 +721,6 @@ footer .wrap { padding-block: 64px 32px; }
   }
   size(); addEventListener("resize", size)
   requestAnimationFrame(frame)
-
-  /* ---------- marquee ---------- */
-  if (motion) {
-    const mq = document.getElementById("mq")
-    const loop = gsap.to(mq, { xPercent: -50, duration: 22, ease: "none", repeat: -1 })
-    ScrollTrigger.create({ onUpdate: s => { gsap.to(loop, { timeScale: 1 + Math.min(Math.abs(s.getVelocity()) / 400, 5) * (s.direction), duration: 0.2, overwrite: true }); gsap.to(loop, { timeScale: 1, duration: 1.2, delay: 0.25 }) } })
-  }
 
   /* ---------- live Mezo block ticker ---------- */
   const pill = document.getElementById("block-pill"), btxt = document.getElementById("block-txt")
