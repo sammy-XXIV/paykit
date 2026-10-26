@@ -124,6 +124,8 @@ npm run build:widget
 
 ## Roadmap
 
+- **Gasless checkout via x402** — buyer signs one EIP-712 message, `facilitator.vativ.io` pays BTC gas; zero gas for buyer or merchant
+- **Smart payment routing** — auto-selects cheapest source: MUSD balance → Savings vault → borrow against BTC trove
 - npm package (`paykit-mezo`) for React/Vue
 - Hosted payment links
 - Mainnet deployment
