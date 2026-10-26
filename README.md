@@ -2,7 +2,7 @@
 
 Drop-in MUSD checkout for any website. One `<script>` tag — your customers pay with Bitcoin-backed stablecoin, you get a webhook when it lands on-chain.
 
-**Live demo:** https://paykit.samsonsamuel531.workers.dev/demo  
+**Live demo:** https://sammy-xxiv.github.io/paykit/  
 **Worker:** https://paykit.samsonsamuel531.workers.dev
 
 ---
